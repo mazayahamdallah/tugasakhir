@@ -1,8 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb5
+-- version 4.8.2
 -- https://www.phpmyadmin.net/
+--
+-- Host: kantong-parkir.cnfp38hsrtd7.us-east-1.rds.amazonaws.com
+-- Generation Time: Jun 01, 2021 at 03:38 PM
+-- Server version: 8.0.20
+-- PHP Version: 7.2.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -12,8 +19,29 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `alpr`
+-- Database: `parkir`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `card`
+--
+
+CREATE TABLE `card` (
+  `uid` varchar(255) NOT NULL,
+  `time` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `card`
+--
+
+INSERT INTO `card` (`uid`, `time`) VALUES
+('938003602170', '2021-05-07 21:20:47'),
+('1063748330094', '2021-05-07 22:18:47'),
+('167922053858', '2021-05-17 21:05:57'),
+('994442032135', '2021-05-17 21:07:52');
 
 -- --------------------------------------------------------
 
@@ -22,9 +50,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `pengguna` (
-  `id_pengguna` int(5) NOT NULL,
+  `id_pengguna` int NOT NULL,
   `nama_pengguna` varchar(15) NOT NULL,
-  `nip` int(5) NOT NULL,
+  `nip` int NOT NULL,
   `unit` varchar(10) NOT NULL,
   `jenis_kelamin` char(1) NOT NULL,
   `tanda_aktif` enum('1','0','','') NOT NULL,
@@ -49,9 +77,9 @@ INSERT INTO `pengguna` (`id_pengguna`, `nama_pengguna`, `nip`, `unit`, `jenis_ke
 --
 
 CREATE TABLE `plat_nomor` (
-  `id_plat` int(5) NOT NULL,
+  `id_plat` int NOT NULL,
   `text_plat` varchar(10) NOT NULL,
-  `kepunyaan` int(10) NOT NULL,
+  `kepunyaan` int NOT NULL,
   `tanggal_dibuat` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -71,7 +99,7 @@ INSERT INTO `plat_nomor` (`id_plat`, `text_plat`, `kepunyaan`, `tanggal_dibuat`)
 --
 
 CREATE TABLE `track_plat` (
-  `id_track` int(5) NOT NULL,
+  `id_track` int NOT NULL,
   `plat_no` varchar(10) NOT NULL,
   `waktu_datang` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `waktu_pergi` datetime DEFAULT NULL
@@ -81,8 +109,16 @@ CREATE TABLE `track_plat` (
 -- Dumping data for table `track_plat`
 --
 
-INSERT INTO `track_plat` (`id_track`, `plat_no`, `waktu_datang`, `waktu_pergi`) VALUES
-(27, 'B9320VUA', '2018-08-23 17:30:31', '2018-08-23 17:35:28');
+INSERT INTO `track_plat` (`id_track`, `plat_no`, `waktu_pergi`) VALUES
+(27, 'B9320VUA', '2020-12-08 10:53:38'),
+(28, 'B9320VUA', '2020-12-08 10:53:38'),
+(29, 'B9320VUA', '2020-12-08 10:53:38'),
+(32, 'B9320VUA', NULL),
+(33, 'B9320VUA', NULL),
+(34, 'D5161JX', NULL),
+(35, 'D5161JX', NULL),
+(36, 'B9320VUA', NULL),
+(37, 'B9320VUA', NULL);
 
 --
 -- Indexes for dumped tables
@@ -114,17 +150,21 @@ ALTER TABLE `track_plat`
 -- AUTO_INCREMENT for table `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id_pengguna` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pengguna` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `plat_nomor`
 --
 ALTER TABLE `plat_nomor`
-  MODIFY `id_plat` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_plat` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `track_plat`
 --
 ALTER TABLE `track_plat`
-  MODIFY `id_track` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_track` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
