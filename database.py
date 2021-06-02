@@ -8,10 +8,10 @@ import Main
 def data(insertdata):
     print(insertdata)
 
-    connection = pymysql.connect(host= 'localhost',
-                                 user='root',
-                                 password='',
-                                 db='alpr',
+    connection = pymysql.connect(host= 'kantong-parkir.cnfp38hsrtd7.us-east-1.rds.amazonaws.com',
+                                 user='admin_parkir',
+                                 password='sukses.2020',
+                                 db='parkir',
                                  charset='utf8mb4',
                                  cursorclass=pymysql.cursors.DictCursor,
                                  )
@@ -39,10 +39,10 @@ def data(insertdata):
 
 # update data baru yaitu data waktu keluar, fungsi ini digunakan di main2.py
 def updatetime(insertdata):
-    connection = pymysql.connect(host= 'localhost',
-                                 user='root',
-                                 password='',
-                                 db='alpr',
+    connection = pymysql.connect(host= 'kantong-parkir.cnfp38hsrtd7.us-east-1.rds.amazonaws.com',
+                                 user='admin_parkir',
+                                 password='sukses.2020',
+                                 db='parkir',
                                  charset='utf8mb4',
                                  cursorclass=pymysql.cursors.DictCursor,
                                  )
@@ -63,10 +63,10 @@ def updatetime(insertdata):
 
 # insert data waktu masuk
 def check(insertdata):
-    connection = pymysql.connect(host= 'localhost',
-                                 user='root',
-                                 password='',
-                                 db='alpr',
+    connection = pymysql.connect(host= 'kantong-parkir.cnfp38hsrtd7.us-east-1.rds.amazonaws.com',
+                                 user='admin_parkir',
+                                 password='sukses.2020',
+                                 db='parkir',
                                  charset='utf8mb4',
                                  cursorclass=pymysql.cursors.DictCursor,
                                  )
