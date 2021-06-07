@@ -1,4 +1,4 @@
-#mencoba untuk mengoneksikan database
+#exit gate
 import RPi.GPIO as GPIO
 import mysql.connector
 import threading
@@ -26,13 +26,16 @@ mydb = mysql.connector.connect(
 
 mycursor=mydb.cursor()
 
-sql = "INSERT INTO card (uid, waktu_in) VALUES (%s, %s)"
-val = (id, tanggal)
-mycursor.execute(sql, val)
+updatesql = "UPDATE card SET waktu_out=%s WHERE uid=%s"
+updateval = (tanggal, id)
+try:
+    mycursor.execute(updatesql, updateval)
+    mydb.commit()
+    print ("Data Updated")
 
-mydb.commit()
+except:
+  print ("Data not Updated")
 
-print(mycursor.rowcount, "Data Inserted")
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(12,GPIO.IN)
