@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Parkir;
+use App\TrackPlat;
+use App\Card;
 
 class HomeController extends Controller
 {
@@ -14,9 +15,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $parkir = Parkir::with('mahasiswa')->where('status', 'in')->orderBy('created_at', 'desc')->get();
-        // dd($parkir); mengambil data 'mahasiswa' dimana statusnya 'in' diurutkan berdasarkan 'created at' terbaru paling atas
-        return view('home', compact('parkir')); //compact untuk mendefinisikan var parkir agar tertampil di home blade
+        $track_plat = TrackPlat::with('plat_nomor')->orderBy('waktu_datang', 'desc')->get();
+        $card = Card::with('pengguna')->orderBy('waktu_in', 'desc')->get();
+        // dd($parskir); //mengambil data 'mahasiswa' dimana statusnya 'in' diurutkan berdasarkan 'created at' terbaru paling atas
+        return view('home', compact('track_plat','card')); //compact untuk mendefinisikan var parkir agar tertampil di home blade
     }
 
     /**
@@ -37,41 +39,41 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-        date_default_timezone_set('Asia/Jakarta'); //menunjukkan zona waktu jakarta
+        // date_default_timezone_set('Asia/Jakarta'); //menunjukkan zona waktu jakarta
 
-        $cek1 = Parkir::where('nim','=', $request->nim)->where('plat_nomor','=',$request->plat_nomor)->where('status','=','in')->get(); //pengecekan pertama dimana nim sama dengan nim, plat nomor sama dengan plat nomor, statusnya adalah 'in'
-        // dd($cek1->first()->id_parkir);
+        // $cek1 = Parkir::where('nim','=', $request->nim)->where('plat_nomor','=',$request->plat_nomor)->where('status','=','in')->get(); //pengecekan pertama dimana nim sama dengan nim, plat nomor sama dengan plat nomor, statusnya adalah 'in'
+        // // dd($cek1->first()->id_parkir);
 
-        $cekAlert1 = Parkir::where('nim', '=', $request->nim)->where('plat_nomor','!=',$request->plat_nomor)->where('status','in')->get(); //pengecekan jika nim sama tapi plat nomor beda pada saat status 'in', maka akan menjalankan $cekAlert1
-        // dd($cekAlert1);
+        // $cekAlert1 = Parkir::where('nim', '=', $request->nim)->where('plat_nomor','!=',$request->plat_nomor)->where('status','in')->get(); //pengecekan jika nim sama tapi plat nomor beda pada saat status 'in', maka akan menjalankan $cekAlert1
+        // // dd($cekAlert1);
 
-        $cekAlert2 = Parkir::where('nim','!=', $request->nim)->where('plat_nomor','=',$request->plat_nomor)->get(); //jika nim tidak sesuai tapi plat nomor sama, maka akan menjalankan $cekAlert2
-        // dd($cekAlert2);
+        // $cekAlert2 = Parkir::where('nim','!=', $request->nim)->where('plat_nomor','=',$request->plat_nomor)->get(); //jika nim tidak sesuai tapi plat nomor sama, maka akan menjalankan $cekAlert2
+        // // dd($cekAlert2);
 
-        $data = [
-            'nim' => $request->nim,
-            'plat_nomor' => $request->plat_nomor,
-            'jam_masuk' => date('Y-m-d H:i:s'),
-            'status' => 'in',
+        // $data = [
+        //     'nim' => $request->nim,
+        //     'plat_nomor' => $request->plat_nomor,
+        //     'jam_masuk' => date('Y-m-d H:i:s'),
+        //     'status' => 'in',
 
-        ];
+        // ];
 
-        if ($cekAlert1->isNotEmpty()) {
-            return redirect()->back()->with('error', 'Data NIM sedang parkir.');
-        }
+        // if ($cekAlert1->isNotEmpty()) {
+        //     return redirect()->back()->with('error', 'Data NIM sedang parkir.');
+        // }
 
-        if ($cekAlert2->isNotEmpty()) {
-            return redirect()->back()->with('error', 'Data Plat Nomor sedang parkir.');
-        }
+        // if ($cekAlert2->isNotEmpty()) {
+        //     return redirect()->back()->with('error', 'Data Plat Nomor sedang parkir.');
+        // }
 
-        if ($cek1->isNotEmpty()) {
-            Parkir::where('id_parkir', $cek1->first()->id_parkir)->update(['status' => 'out', 'jam_keluar' => date('Y-m-d H:i:s')]);
-            return redirect ('home');
+        // if ($cek1->isNotEmpty()) {
+        //     Parkir::where('id_parkir', $cek1->first()->id_parkir)->update(['status' => 'out', 'jam_keluar' => date('Y-m-d H:i:s')]);
+        //     return redirect ('home');
             
-        } else{
-            Parkir::insert($data);
-            return redirect ('home');
-        }
+        // } else{
+        //     Parkir::insert($data);
+        //     return redirect ('home');
+        // }
 
     }
 

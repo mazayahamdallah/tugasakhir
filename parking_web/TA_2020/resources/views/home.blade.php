@@ -68,26 +68,25 @@
           <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>NIM</th>
-                    <th>Nama</th>
-                    <th>Fakultas</th>
-                    <th>Angkatan</th>
                     <th>Plat Nomor</th>
+                    <th>Seri Motor</th>
+                    <th>Warna</th>
                     <th>Jam Masuk</th>
-                    <th>Status</th>
+                    <th>Jam Keluar</th>
+                    
                     <!-- <th>Aksi</th> -->
                 </tr>
+
             </thead>
             <tbody>
-              @foreach($parkir as $data)
+              @foreach($track_plat as $data)
                 <tr>
-                    <td>{{$data->nim}}</td>
-                    <td>{{$data->mahasiswa->nama}}</td>
-                    <td>{{$data->mahasiswa->fakultas}}</td>
-                    <td>{{$data->mahasiswa->angkatan}}</td>
-                    <td>{{$data->plat_nomor}}</td>
-                    <td>{{$data->jam_masuk}}</td>
-                    <td>{{$data->status}}</td>
+                    <td>{{$data->plat_nomor->text_plat}}</td>
+                    <td>{{$data->plat_nomor->seri_motor}}</td>
+                    <td>{{$data->plat_nomor->warna}}</td>
+                    <td>{{$data->waktu_datang}}</td>
+                    <td>{{$data->waktu_pergi}}</td>
+                    
                     <!-- <td>
                       <a href="" class="btn btn-sm btn-primary">Ubah</a>
                       <form style="display:inline-block" action="" method="GET">
@@ -97,7 +96,34 @@
                     </td> -->
                 </tr>
               @endforeach
-                
+            </tbody>
+          </table>
+
+          <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>UID</th>
+                    <th>Nama</th>
+                    <th>NIM</th>
+                    <th>Angkatan</th>
+                    <th>Fakultas</th>
+                    <th>Jam Masuk</th>
+                    <th>Jam Keluar</th>
+                </tr>
+
+            </thead>
+            <tbody>
+              @foreach($card as $data1)
+              <tr>
+                    <td>{{$data1->pengguna->uid}}</td>
+                    <td>{{$data1->pengguna->nama_pengguna}}</td>
+                    <td>{{$data1->pengguna->nim}}</td>
+                    <td>{{$data1->pengguna->angkatan}}</td>
+                    <td>{{$data1->pengguna->fakultas}}</td>
+                    <td>{{$data1->waktu_in}}</td>
+                    <td>{{$data1->waktu_out}}</td>
+              </tr>
+              @endforeach
             </tbody>
           </table>
         </div>
