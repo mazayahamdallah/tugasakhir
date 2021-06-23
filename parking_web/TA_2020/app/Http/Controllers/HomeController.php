@@ -15,8 +15,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $track_plat = TrackPlat::with('plat_nomor')->orderBy('waktu_datang', 'desc')->get();
-        $card = Card::with('pengguna')->orderBy('waktu_in', 'desc')->get();
+        $track_plat = TrackPlat::with('plat_nomor')->where('waktu_pergi', '=', null)->orderBy('waktu_datang', 'desc')->get();
+        $card = Card::with('pengguna')->where('waktu_out', '=', null)->orderBy('waktu_in', 'desc')->get();
         // dd($parskir); //mengambil data 'mahasiswa' dimana statusnya 'in' diurutkan berdasarkan 'created at' terbaru paling atas
         return view('home', compact('track_plat','card')); //compact untuk mendefinisikan var parkir agar tertampil di home blade
     }

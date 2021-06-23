@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('main');
+    return redirect('home');
 });
 
 Route::resource('home', 'HomeController'); //route untuk halaman home

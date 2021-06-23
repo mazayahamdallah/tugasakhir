@@ -57,27 +57,31 @@
           <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>NIM</th>
+                    <th>UID</th>
                     <th>Nama</th>
-                    <th>Fakultas</th>
+                    <th>NIM</th>
                     <th>Angkatan</th>
-                    <th>Plat nomor</th>
-                    <th>Status</th>
+                    <th>Fakultas</th>
+                    <th>Plat Nomor</th>
+                    <th>Seri Motor</th>
+                    <th>Warna</th>
                     <th>Jam Masuk</th>
                     <th>Jam Keluar</th>
                 </tr>
             </thead>
             <tbody>
-              @foreach($parkir as $data)
+              @foreach($parkir as $key => $data)
                 <tr>
-                    <td>{{$data->nim}}</td>
-                    <td>{{$data->mahasiswa->nama}}</td>
-                    <td>{{$data->mahasiswa->fakultas}}</td>
-                    <td>{{$data->mahasiswa->angkatan}}</td>
-                    <td>{{$data->plat_nomor}}</td>
-                    <td>{{$data->status}}</td>
-                    <td>{{$data->jam_masuk}}</td>
-                    <td>{{$data->jam_keluar}}</td>
+                    <td>{{$pengguna[$key]->uid}}</td>
+                    <td>{{$pengguna[$key]->pengguna->nama_pengguna}}</td>
+                    <td>{{$pengguna[$key]->pengguna->nim}}</td>
+                    <td>{{$pengguna[$key]->pengguna->angkatan}}</td>
+                    <td>{{$pengguna[$key]->pengguna->fakultas}}</td>
+                    <td>{{$data->plat_nomor->text_plat}}</td>
+                    <td>{{$data->plat_nomor->seri_motor}}</td>
+                    <td>{{$data->plat_nomor->warna}}</td>
+                    <td>{{$pengguna[$key]->waktu_in}}</td>
+                    <td>{{$pengguna[$key]->waktu_out}}</td>
                 </tr>
               @endforeach
                 

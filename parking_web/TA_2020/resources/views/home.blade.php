@@ -14,57 +14,29 @@
         @endif
 
         <div class="box-header with-border">
-          <h3 class="box-title">Data Masuk Kendaraan</h3>
+          <h3 class="box-title">Tombol Kontrol Gerbang</h3>
         </div>
         <div class="box-body">
-         <form class="form-horizontal" method="POST" action="{{route('home.store')}}"  accept-charset="UTF-8">
-          {{csrf_field()}}
+
               <div class="box-body">
                 <div class="col-md-6">
-                  <div class="form-group">
-                        <label class="control-label col-sm-3" for="NIM">NIM:</label>
-                        <div class="col-sm-6">
-                          <input class="form-control" id="nim" required="required" name="nim" type="text" maxlength="18">
-                        
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-3" for="plat_nomor">Plat Nomor:</label>
-                        <div class="col-sm-6">
-                        
-                          <input class="form-control" id="plat_nomor" required="required" name="plat_nomor" type="text" maxlength="11">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-3"></label>
-                        <div class="col-sm-6">
-                        <button class="btn btn-success" type="submit" id="submit-laporan">Input</button>
-                        </div>
-                    </div>
-
+                <!-- <a href="{{url('laporan')}}"> -->
+                    <button class="btn btn-success" type="button" id="opengate" name="opengate">Buka Gerbang</button>
+                <!-- </a> -->
+                    <button class="btn btn-danger" type="button" id="closegate" name="closegate">Tutup Gerbang</button>
                 </div>
               </div>
-          </form>
+ 
         </div>
 
       </div>
 
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Kendaraan Masuk</h3>
+          <h3 class="box-title">Informasi Kendaraan Masuk</h3>
         </div>
+
         <div class="box-body">
-          <div class="col-md-12">
-            <!-- <div class="col-md-6">
-              <a href="" type="button" class="btn btn-sm btn-success" style="margin-bottom: 20px">
-              Tambah</a>
-            </div> -->
-          </div>
-          
-
-
           <table class="table table-bordered">
             <thead>
                 <tr>
@@ -72,9 +44,6 @@
                     <th>Seri Motor</th>
                     <th>Warna</th>
                     <th>Jam Masuk</th>
-                    <th>Jam Keluar</th>
-                    
-                    <!-- <th>Aksi</th> -->
                 </tr>
 
             </thead>
@@ -85,20 +54,21 @@
                     <td>{{$data->plat_nomor->seri_motor}}</td>
                     <td>{{$data->plat_nomor->warna}}</td>
                     <td>{{$data->waktu_datang}}</td>
-                    <td>{{$data->waktu_pergi}}</td>
-                    
-                    <!-- <td>
-                      <a href="" class="btn btn-sm btn-primary">Ubah</a>
-                      <form style="display:inline-block" action="" method="GET">
-                        {{csrf_field().method_field('DELETE')}}
-                        <button class="btn btn-danger btn-sm" onclick="return confirm(\'Are you sure want to delete this data?\'')">Hapus</button>
-                      </form>
-                    </td> -->
                 </tr>
               @endforeach
             </tbody>
           </table>
 
+        </div>
+      </div>
+        <!-- /.box-body -->
+
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Informasi Pengendara Masuk</h3>
+        </div>
+          
+        <div class="box-body">
           <table class="table table-bordered">
             <thead>
                 <tr>
@@ -108,7 +78,6 @@
                     <th>Angkatan</th>
                     <th>Fakultas</th>
                     <th>Jam Masuk</th>
-                    <th>Jam Keluar</th>
                 </tr>
 
             </thead>
@@ -121,13 +90,12 @@
                     <td>{{$data1->pengguna->angkatan}}</td>
                     <td>{{$data1->pengguna->fakultas}}</td>
                     <td>{{$data1->waktu_in}}</td>
-                    <td>{{$data1->waktu_out}}</td>
               </tr>
               @endforeach
             </tbody>
           </table>
         </div>
-        <!-- /.box-body -->
+      </div>
 
         <div id="chart1"></div>
         
