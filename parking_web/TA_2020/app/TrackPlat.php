@@ -12,6 +12,6 @@ class TrackPlat extends Model
 
         public function plat_nomor()
     {
-    	return $this->belongsTo('App\PlatNomor', 'id_plat', 'id_plat');
+    	return $this->belongsTo('App\PlatNomor', 'plat_no', 'text_plat');
     }
 }

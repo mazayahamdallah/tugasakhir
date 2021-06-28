@@ -77,7 +77,7 @@
                     <td>{{$pengguna[$key]->pengguna->nim}}</td>
                     <td>{{$pengguna[$key]->pengguna->angkatan}}</td>
                     <td>{{$pengguna[$key]->pengguna->fakultas}}</td>
-                    <td>{{$data->plat_nomor->text_plat}}</td>
+                    <td>{{$data->plat_no}}</td>
                     <td>{{$data->plat_nomor->seri_motor}}</td>
                     <td>{{$data->plat_nomor->warna}}</td>
                     <td>{{$pengguna[$key]->waktu_in}}</td>

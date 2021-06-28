@@ -50,7 +50,7 @@
             <tbody>
               @foreach($track_plat as $data)
                 <tr>
-                    <td>{{$data->plat_nomor->text_plat}}</td>
+                    <td>{{$data->plat_no}}</td>
                     <td>{{$data->plat_nomor->seri_motor}}</td>
                     <td>{{$data->plat_nomor->warna}}</td>
                     <td>{{$data->waktu_datang}}</td>
