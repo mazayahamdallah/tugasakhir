@@ -21,12 +21,24 @@
               <div class="box-body">
                 <div class="col-md-6">
                 <!-- <a href="{{url('laporan')}}"> -->
-                    <button class="btn btn-success" type="button" id="opengate" name="opengate">Buka Gerbang</button>
+                    <button onclick="entranceGateOpen(e)">Buka Gerbang Masuk
+                    </button>
+
+
                 <!-- </a> -->
-                    <button class="btn btn-danger" type="button" id="closegate" name="closegate">Tutup Gerbang</button>
+                    <button onclick="entranceGateClose(e)">Tutup Gerbang Masuk</button>
                 </div>
               </div>
- 
+
+               <div class="box-body">
+                <div class="col-md-6">
+                <!-- <a href="{{url('laporan')}}"> -->
+                    <button onclick="exitGateOpen(e)">Buka Gerbang Keluar</button>
+                <!-- </a> -->
+                    <button onclick="exitGateClose(e)">Tutup Gerbang Keluar</button>
+                </div>
+              </div>
+
         </div>
 
       </div>
