@@ -1,6 +1,6 @@
 MQTTbroker = '192.168.1.9';
 
-MQTTport = '1883';
+MQTTport = 8000;
 MQTTsubTopic1 ='gerbang/masuk';
 MQTTsubTopic2 ='gerbang/keluar';
 

@@ -1,11 +1,99 @@
 @extends('main')
 @section('content-title')
-  
+<script src="mqttws31.js" type="text/javascript"></script>
+<script src="jquery.min.js" type="text/javascript"></script>
+<script src="config.js" type="text/javascript"></script>
+<script type="text/javascript">
+var mqtt;
+var reconnectTimeout = 2000;
+var client_name = "web_" + parseInt(Math.random() * 100, 10);
+var dataChart = [0,1,2,4];
+function MQTTconnect() {
+  if (typeof path == "undefined") {
+    path = '/mqtt';
+  }
+  mqtt = new Paho.MQTT.Client(
+    MQTTbroker,
+    MQTTport,
+    path,
+    client_name
+  );
+  var options = {
+    timeout: 3,
+    useSSL: useTLS,
+    cleanSession: cleansession,
+    onSuccess: onConnect,
+    onFailure: function (message) {
+    //   $('#status').val("Connection failed: " + message.errorMessage + "Retrying");
+      setTimeout(MQTTconnect, reconnectTimeout);
+    }
+  };
+  mqtt.onConnectionLost = onConnectionLost;
+  mqtt.onMessageArrived = onMessageArrived;
+  if (username != null) {
+    options.userName = username;
+    options.password = password;
+  }
+  console.log("Host="+ MQTTbroker + ", port=" + MQTTport + ", path=" + path + " TLS = " + useTLS + " username=" + username + " password=" + password);
+  mqtt.connect(options);
+//   document.getElementById('name').innerHTML = "I am "+client_name;
+}
+function onConnect() {
+//   $('#status').val('Connected to ' + host + ':' + port + path);
+  mqtt.subscribe(MQTTsubTopic1, {qos: 0});
+  mqtt.subscribe(MQTTsubTopic2, {qos: 0});
+//   $('#topic1').val(topic1);
+//   $('#topic2').val(topic3);
+
+}
+function entranceGateOpen(e){
+    var Message = '1';
+    message = new Paho.MQTT.Message(Message);
+    message.destinationName = MQTTsubTopic1;
+    mqtt.send(message);
+}
+
+function entranceGateClose(e){
+    var Message = '0';
+    message = new Paho.MQTT.Message(Message);
+    message.destinationName = MQTTsubTopic1;
+    mqtt.send(message);
+}
+
+function exitGateOpen(e){
+    var Message = '1';
+    message = new Paho.MQTT.Message(Message);
+    message.destinationName = MQTTsubTopic2;
+    mqtt.send(message);
+}
+
+function exitGateClose(e){
+    var Message = '0';
+    message = new Paho.MQTT.Message(Message);
+    message.destinationName = MQTTsubTopic2;
+    mqtt.send(message);
+}
+function onMessageArrived(message) {
+    var topic = message.destinationName;
+    var payload = message.payloadString;
+   console.log(`topic : ${topic} \nmessage : ${payload}`)
+};
+
+function onConnectionLost(response) {
+  setTimeout(MQTTconnect, reconnectTimeout);
+//   $('#status').val("connection lost: " + responseObject.errorMessage + ". Reconnecting");
+};
+
+$(document).ready(function() {
+  MQTTconnect();
+});
+</script>
 @endsection
+
 @section('content')
           <!-- Default box -->
       <div class="box">
- 
+
  <!--UI untuk menampilkan error -->
         @if(Session::has('error'))
         <div class="alert alert-error">
@@ -21,21 +109,21 @@
               <div class="box-body">
                 <div class="col-md-6">
                 <!-- <a href="{{url('laporan')}}"> -->
-                    <button onclick="entranceGateOpen(e)">Buka Gerbang Masuk
+                    <button onclick="entranceGateOpen(event)">Buka Gerbang Masuk
                     </button>
 
 
                 <!-- </a> -->
-                    <button onclick="entranceGateClose(e)">Tutup Gerbang Masuk</button>
+                    <button onclick="entranceGateClose(event)">Tutup Gerbang Masuk</button>
                 </div>
               </div>
 
                <div class="box-body">
                 <div class="col-md-6">
                 <!-- <a href="{{url('laporan')}}"> -->
-                    <button onclick="exitGateOpen(e)">Buka Gerbang Keluar</button>
+                    <button onclick="exitGateOpen(event)">Buka Gerbang Keluar</button>
                 <!-- </a> -->
-                    <button onclick="exitGateClose(e)">Tutup Gerbang Keluar</button>
+                    <button onclick="exitGateClose(event)">Tutup Gerbang Keluar</button>
                 </div>
               </div>
 
@@ -79,7 +167,7 @@
         <div class="box-header with-border">
           <h3 class="box-title">Informasi Pengendara Masuk</h3>
         </div>
-          
+
         <div class="box-body">
           <table class="table table-bordered">
             <thead>
@@ -110,8 +198,13 @@
       </div>
 
         <div id="chart1"></div>
-        
-        
+
+
       </div>
+
+@endsection
+@section("script")
+
+
 
 @endsection
