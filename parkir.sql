@@ -2,9 +2,9 @@
 -- version 4.8.2
 -- https://www.phpmyadmin.net/
 --
--- Host: kantong-parkir.cnfp38hsrtd7.us-east-1.rds.amazonaws.com
--- Generation Time: Jun 01, 2021 at 03:38 PM
--- Server version: 8.0.20
+-- Host: 127.0.0.1
+-- Generation Time: Jul 11, 2021 at 04:13 PM
+-- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -29,19 +29,35 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `card` (
+  `id_card` int(11) NOT NULL,
   `uid` varchar(255) NOT NULL,
-  `time` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `waktu_in` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `waktu_out` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `card`
 --
 
-INSERT INTO `card` (`uid`, `time`) VALUES
-('938003602170', '2021-05-07 21:20:47'),
-('1063748330094', '2021-05-07 22:18:47'),
-('167922053858', '2021-05-17 21:05:57'),
-('994442032135', '2021-05-17 21:07:52');
+INSERT INTO `card` (`id_card`, `uid`, `waktu_in`, `waktu_out`) VALUES
+(15, '1063748330094', '2021-07-02 03:27:29', '2021-07-06 15:38:08'),
+(16, '1063748330094', '2021-07-06 14:57:05', '2021-07-06 15:38:08'),
+(17, '938003602170', '2021-07-06 15:42:27', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `data_view`
+--
+
+CREATE TABLE `data_view` (
+  `id_dataview` int(11) NOT NULL,
+  `id_card` int(11) NOT NULL,
+  `id_track` int(11) NOT NULL,
+  `status` enum('in','out','','') NOT NULL,
+  `jam_masuk` datetime NOT NULL,
+  `jam_keluar` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -50,25 +66,21 @@ INSERT INTO `card` (`uid`, `time`) VALUES
 --
 
 CREATE TABLE `pengguna` (
-  `id_pengguna` int NOT NULL,
+  `uid` varchar(255) NOT NULL,
   `nama_pengguna` varchar(15) NOT NULL,
-  `nip` int NOT NULL,
-  `unit` varchar(10) NOT NULL,
-  `jenis_kelamin` char(1) NOT NULL,
-  `tanda_aktif` enum('1','0','','') NOT NULL,
-  `tanda_dihapus` enum('1','0','','') NOT NULL,
-  `tanggal_dibuat` datetime NOT NULL,
-  `tanggal_dihapus` datetime NOT NULL
+  `nim` varchar(18) NOT NULL,
+  `fakultas` varchar(100) NOT NULL,
+  `angkatan` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pengguna`
 --
 
-INSERT INTO `pengguna` (`id_pengguna`, `nama_pengguna`, `nip`, `unit`, `jenis_kelamin`, `tanda_aktif`, `tanda_dihapus`, `tanggal_dibuat`, `tanggal_dihapus`) VALUES
-(1, 'jarwo', 12345, 'IT', 'L', '1', '0', '2018-01-15 00:00:00', '0000-00-00 00:00:00'),
-(2, 'sodron', 12345, 'IT', 'L', '1', '0', '2018-01-15 00:00:00', '2018-01-15 00:00:00'),
-(3, 'gondes', 54321, 'IT', 'L', '1', '0', '2018-01-16 00:00:00', '2018-01-16 09:28:17');
+INSERT INTO `pengguna` (`uid`, `nama_pengguna`, `nim`, `fakultas`, `angkatan`) VALUES
+('1063748330094', 'Mirna K', '16/401040/SV/11544', 'Sekolah Vokasi', 2016),
+('938003602170', 'Mazaya Hamdalla', '16/400630/SV/11134', 'Sekolah Vokasi', 2016),
+('994442032135', 'Titis Nadela', '16/400637/SV/11141', 'Sekolah Vokasi', 2016);
 
 -- --------------------------------------------------------
 
@@ -77,20 +89,20 @@ INSERT INTO `pengguna` (`id_pengguna`, `nama_pengguna`, `nip`, `unit`, `jenis_ke
 --
 
 CREATE TABLE `plat_nomor` (
-  `id_plat` int NOT NULL,
+  `id_plat` int(11) NOT NULL,
   `text_plat` varchar(10) NOT NULL,
-  `kepunyaan` int NOT NULL,
-  `tanggal_dibuat` datetime NOT NULL
+  `seri_motor` varchar(100) NOT NULL,
+  `warna` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `plat_nomor`
 --
 
-INSERT INTO `plat_nomor` (`id_plat`, `text_plat`, `kepunyaan`, `tanggal_dibuat`) VALUES
-(1, 'AB1895KA', 1, '2018-01-15 00:00:00'),
-(2, 'D5161JX', 2, '2018-01-15 00:00:00'),
-(3, 'B9320VUA', 3, '2018-01-16 09:29:18');
+INSERT INTO `plat_nomor` (`id_plat`, `text_plat`, `seri_motor`, `warna`) VALUES
+(1, 'AB1895KA', 'Honda Beat', 'Merah'),
+(2, 'D5161JX', 'Honda Vario', 'Putih'),
+(3, 'B9320VUA', 'Yamaha Mio', 'Hijau');
 
 -- --------------------------------------------------------
 
@@ -99,9 +111,9 @@ INSERT INTO `plat_nomor` (`id_plat`, `text_plat`, `kepunyaan`, `tanggal_dibuat`)
 --
 
 CREATE TABLE `track_plat` (
-  `id_track` int NOT NULL,
+  `id_track` int(11) NOT NULL,
   `plat_no` varchar(10) NOT NULL,
-  `waktu_datang` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `waktu_datang` datetime DEFAULT CURRENT_TIMESTAMP,
   `waktu_pergi` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -109,26 +121,32 @@ CREATE TABLE `track_plat` (
 -- Dumping data for table `track_plat`
 --
 
-INSERT INTO `track_plat` (`id_track`, `plat_no`, `waktu_pergi`) VALUES
-(27, 'B9320VUA', '2020-12-08 10:53:38'),
-(28, 'B9320VUA', '2020-12-08 10:53:38'),
-(29, 'B9320VUA', '2020-12-08 10:53:38'),
-(32, 'B9320VUA', NULL),
-(33, 'B9320VUA', NULL),
-(34, 'D5161JX', NULL),
-(35, 'D5161JX', NULL),
-(36, 'B9320VUA', NULL),
-(37, 'B9320VUA', NULL);
+INSERT INTO `track_plat` (`id_track`, `plat_no`, `waktu_datang`, `waktu_pergi`) VALUES
+(1, 'B9320VUA', '2021-07-08 17:39:04', '2021-07-08 17:43:21');
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `card`
+--
+ALTER TABLE `card`
+  ADD PRIMARY KEY (`id_card`),
+  ADD KEY `uid` (`uid`);
+
+--
+-- Indexes for table `data_view`
+--
+ALTER TABLE `data_view`
+  ADD KEY `id_card` (`id_card`),
+  ADD KEY `id_track` (`id_track`);
+
+--
 -- Indexes for table `pengguna`
 --
 ALTER TABLE `pengguna`
-  ADD PRIMARY KEY (`id_pengguna`);
+  ADD PRIMARY KEY (`uid`);
 
 --
 -- Indexes for table `plat_nomor`
@@ -147,22 +165,32 @@ ALTER TABLE `track_plat`
 --
 
 --
--- AUTO_INCREMENT for table `pengguna`
+-- AUTO_INCREMENT for table `card`
 --
-ALTER TABLE `pengguna`
-  MODIFY `id_pengguna` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `card`
+  MODIFY `id_card` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `plat_nomor`
 --
 ALTER TABLE `plat_nomor`
-  MODIFY `id_plat` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_plat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `track_plat`
 --
 ALTER TABLE `track_plat`
-  MODIFY `id_track` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id_track` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `card`
+--
+ALTER TABLE `card`
+  ADD CONSTRAINT `card_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `pengguna` (`uid`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
